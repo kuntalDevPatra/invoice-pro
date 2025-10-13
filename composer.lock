@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4ddf34cf22d150b595d8259e4152dd2",
+    "content-hash": "96fca359017ed40c7480da0346d9fea9",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -10003,6 +10003,52 @@
             "time": "2024-12-21T16:25:41+00:00"
         },
         {
+            "name": "ufee/sqlite3",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ufee/Sqlite3.git",
+                "reference": "513f9dee69b8bd1edc7907eba4c1aa97a41fe5c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ufee/Sqlite3/zipball/513f9dee69b8bd1edc7907eba4c1aa97a41fe5c3",
+                "reference": "513f9dee69b8bd1edc7907eba4c1aa97a41fe5c3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ufee\\Sqlite3\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vlad Ionov",
+                    "email": "vlad@ufee.ru",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Sqlite3 PHP Class (https://www.sqlite.org/)",
+            "homepage": "https://github.com/ufee",
+            "support": {
+                "email": "vlad@ufee.ru",
+                "issues": "https://github.com/ufee",
+                "source": "https://github.com/ufee/Sqlite3/tree/1.0.2"
+            },
+            "time": "2023-07-18T10:27:46+00:00"
+        },
+        {
             "name": "vinkla/hashids",
             "version": "13.0.0",
             "source": {
@@ -12428,12 +12474,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

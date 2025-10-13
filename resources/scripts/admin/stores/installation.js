@@ -125,6 +125,7 @@ export const useInstallationStore = (useWindow = false) => {
       },
 
       addInstallationDatabase(data) {
+        console.log(data)
         return new Promise((resolve, reject) => {
           axios
             .post(`/api/v1/installation/database/config`, data)

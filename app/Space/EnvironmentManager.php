@@ -96,16 +96,17 @@ class EnvironmentManager
         }
 
         // Check if the value contains characters that need quoting
-        // Using a character class regex to properly match special characters
-        $specialChars = '\^\'£$%&*()}{@#~?><,|=\-_+¬!';
+        // Including common password special characters
+        $specialChars = '\^\'£$%&*()}{@#~?><,|=\-_+¬! ';
         $needsQuoting = (
             strpos($str, ' ') !== false ||
-            preg_match('/['.preg_quote($specialChars, '/').']/', $str)
+            preg_match('/['.preg_quote($specialChars, '/').']/', $str) ||
+            empty($str)  // Quote empty strings
         );
 
         if ($needsQuoting) {
-            // Escape any existing double quotes in the string
-            $str = str_replace('"', '\\"', $str);
+            // Escape any existing double quotes and backslashes in the string
+            $str = str_replace(['\\', '"'], ['\\\\', '\\"'], $str);
             $str = '"'.$str.'"';
         }
 
@@ -216,7 +217,12 @@ class EnvironmentManager
             'database' => $request->get('database_name'),
         ]);
 
-        if ($connection !== 'sqlite' && $request->has('database_username') && $request->has('database_password')) {
+        if ($connection !== 'sqlite') {
+            // Ensure we have all required fields for non-SQLite connections
+            if (!$request->has('database_username') || !$request->has('database_password')) {
+                throw new Exception('Database username and password are required for ' . $connection . ' connections.');
+            }
+            
             $connectionArray = array_merge($connectionArray, [
                 'username' => $request->get('database_username'),
                 'password' => $request->get('database_password'),
@@ -233,7 +239,26 @@ class EnvironmentManager
             ],
         ]);
 
-        return DB::connection()->getPdo();
+        try {
+            $pdo = DB::connection()->getPdo();
+            return $pdo;
+        } catch (\PDOException $e) {
+            // Provide more specific error messages based on error code
+            $errorCode = $e->getCode();
+            $errorMessage = $e->getMessage();
+            
+            if (strpos($errorMessage, 'Access denied') !== false) {
+                throw new Exception('Database connection failed: Invalid username or password. Please check your database credentials.');
+            } elseif (strpos($errorMessage, 'Connection refused') !== false || strpos($errorMessage, 'Can\'t connect') !== false) {
+                throw new Exception('Database connection failed: Cannot connect to database server at ' . $request->get('database_hostname') . ':' . $request->get('database_port') . '. Please check if the database server is running and accessible.');
+            } elseif (strpos($errorMessage, 'Unknown database') !== false) {
+                throw new Exception('Database connection failed: Database "' . $request->get('database_name') . '" does not exist. Please create the database first or check the database name.');
+            } else {
+                throw new Exception('Database connection failed: ' . $errorMessage);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**

@@ -63,6 +63,10 @@ class DatabaseEnvironmentRequest extends FormRequest
                         'required',
                         'string',
                     ],
+                    'database_password' => [
+                        'required',
+                        'string',
+                    ],
                 ];
 
                 break;

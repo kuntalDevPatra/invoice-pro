@@ -37,7 +37,11 @@ class DatabaseConfigurationController extends Controller
             Artisan::call('config:clear');
             Artisan::call('cache:clear');
             Artisan::call('storage:link');
+            
+            // Install the migration repository (creates migrations table) before running migrations
+            Artisan::call('migrate:install');
             Artisan::call('migrate --seed --force');
+            
             // Set version.
             InstallUtils::setCurrentVersion();
         }
