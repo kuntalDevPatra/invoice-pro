@@ -74,4 +74,6 @@ class BootstrapController extends Controller
             'modules' => Module::where('enabled', true)->pluck('name'),
         ]);
     }
+
+
 }

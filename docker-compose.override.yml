@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:15
+    container_name: invoiceshelf-dev-pgsql
+    environment:
+      - POSTGRES_PASSWORD=invoiceshelf
+      - POSTGRES_USER=invoiceshelf
+      - POSTGRES_DB=invoiceshelf
+    ports:
+      - 5433:5432
+    volumes:
+      - invoiceshelf-dev-pgsql:/var/lib/postgresql/data
+
+volumes:
+  invoiceshelf-dev-pgsql:

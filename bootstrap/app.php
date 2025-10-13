@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'login',
+            'sso-login',
         ]);
 
         $middleware->append([
@@ -53,6 +54,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'customer-guest' => \App\Http\Middleware\CustomerGuest::class,
             'customer-portal' => \App\Http\Middleware\CustomerPortalMiddleware::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'hybrid-auth' => \App\Http\Middleware\HybridAuth::class,
             'install' => \App\Http\Middleware\InstallationMiddleware::class,
             'pdf-auth' => \App\Http\Middleware\PdfMiddleware::class,
             'redirect-if-installed' => \App\Http\Middleware\RedirectIfInstalled::class,

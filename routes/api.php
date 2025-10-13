@@ -146,7 +146,7 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('login', [AuthController::class, 'login']);
 
-        Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+        Route::post('logout', [AuthController::class, 'logout'])->middleware('hybrid-auth');
 
         // Send reset password mail
         Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->middleware('throttle:10,2');
@@ -187,7 +187,10 @@ Route::prefix('/v1')->group(function () {
         Route::post('/finish', FinishController::class);
     });
 
-    Route::middleware(['auth:sanctum', 'company'])->group(function () {
+    // Auth check without sanctum middleware
+    Route::get('/auth/check', [AuthController::class, 'check']);
+
+    Route::middleware(['hybrid-auth', 'company'])->group(function () {
         Route::middleware(['bouncer'])->group(function () {
 
             // Bootstrap
@@ -212,7 +215,7 @@ Route::prefix('/v1')->group(function () {
             // Auth check
             // ----------------------------------
 
-            Route::get('/auth/check', [AuthController::class, 'check']);
+            // Moved outside sanctum middleware
 
             // Search users
             // ----------------------------------

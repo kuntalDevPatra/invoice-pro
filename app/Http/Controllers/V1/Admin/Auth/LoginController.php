@@ -37,4 +37,45 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Handle a login request to the application.
+     */
+    public function login(\Illuminate\Http\Request $request)
+    {
+        \Illuminate\Support\Facades\Log::info('Login attempt', [
+            'email' => $request->input('email'),
+            'has_password' => !empty($request->input('password'))
+        ]);
+
+        $this->validateLogin($request);
+
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($this->attemptLogin($request)) {
+            // Create Sanctum token for API authentication
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $token = $user->createToken('web-session')->plainTextToken;
+            
+            \Illuminate\Support\Facades\Log::info('Login successful', [
+                'email' => $request->input('email'),
+                'user_id' => \Illuminate\Support\Facades\Auth::id(),
+                'token_created' => true
+            ]);
+            
+            $response = $this->sendLoginResponse($request);
+            return $response->cookie('sanctum_token', $token, 60 * 24 * 7); // 7 days
+        }
+
+        \Illuminate\Support\Facades\Log::warning('Login failed', [
+            'email' => $request->input('email')
+        ]);
+
+        $this->incrementLoginAttempts($request);
+        return $this->sendFailedLoginResponse($request);
+    }
 }

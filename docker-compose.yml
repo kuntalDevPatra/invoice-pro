@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  invoiceshelf-db:
+    image: postgres:15
+    container_name: invoiceshelf-postgres-5436
+    environment:
+      POSTGRES_DB: invoiceshelf
+      POSTGRES_USER: invoiceshelf
+      POSTGRES_PASSWORD: invoiceshelf
+    ports:
+      - "5436:5432"
+    volumes:
+      - invoiceshelf_postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  invoiceshelf_postgres_data:

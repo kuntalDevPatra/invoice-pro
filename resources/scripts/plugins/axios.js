@@ -20,7 +20,7 @@ axios.interceptors.request.use(function (config) {
   const authToken = Ls.get('auth.token')
 
   if (authToken) {
-    config.headers.Authorization = authToken
+    config.headers.Authorization = `Bearer ${authToken}`
   }
 
   if (companyId) {

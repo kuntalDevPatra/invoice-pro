@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\Admin\Auth\LoginController;
+use App\Http\Controllers\V1\Admin\Auth\SSOController;
 use App\Http\Controllers\V1\Admin\Expense\ShowReceiptController;
 use App\Http\Controllers\V1\Admin\Report\CustomerSalesReportController;
 use App\Http\Controllers\V1\Admin\Report\ExpensesReportController;
@@ -31,6 +32,11 @@ Route::get('/modules/scripts/{script}', ScriptController::class);
 // ----------------------------------------------
 
 Route::post('login', [LoginController::class, 'login']);
+
+// SSO login from SAAS
+Route::get('sso-login', [SSOController::class, 'handleSSOLogin']);
+
+
 
 Route::post('auth/logout', function () {
     Auth::guard('web')->logout();
