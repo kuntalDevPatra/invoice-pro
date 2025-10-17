@@ -1,9 +1,18 @@
 const read = async (Model, req, res) => {
-  // Find document by id
-  const result = await Model.findOne({
+  // Build query with user ownership filter for multi-tenancy
+  const query = {
     _id: req.params.id,
     removed: false,
-  }).exec();
+  };
+  
+  // Add user ownership filter if user is authenticated and model has createdBy field
+  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
+    query.createdBy = req.admin._id;
+  }
+  
+  // Find document by id
+  const result = await Model.findOne(query).exec();
+  
   // If no results found, return document not found
   if (!result) {
     return res.status(404).json({

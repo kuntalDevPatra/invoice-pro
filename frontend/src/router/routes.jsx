@@ -40,6 +40,7 @@ let routes = {
       path: '/logout',
       element: <Logout />,
     },
+
     {
       path: '/about',
       element: <About />,

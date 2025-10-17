@@ -155,3 +155,17 @@ export const updateProfile =
       window.localStorage.setItem('auth', JSON.stringify(auth_state));
     }
   };
+
+// Action creators for SSO
+export const loginRequest = () => ({
+  type: actionTypes.REQUEST_LOADING,
+});
+
+export const loginSuccess = (user) => ({
+  type: actionTypes.REQUEST_SUCCESS,
+  payload: user,
+});
+
+export const loginFailed = () => ({
+  type: actionTypes.REQUEST_FAILED,
+});

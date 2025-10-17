@@ -14,7 +14,12 @@ const AUTH_INITIAL_STATE = {
   isSuccess: false,
 };
 
-const auth_state = storePersist.get('auth') ? storePersist.get('auth') : AUTH_INITIAL_STATE;
+console.log('🔍 [STORE-DEBUG] Raw localStorage auth:', localStorage.getItem('auth'));
+const storedAuth = storePersist.get('auth');
+console.log('🔍 [STORE-DEBUG] storePersist.get result:', storedAuth);
+
+const auth_state = storedAuth ? storedAuth : AUTH_INITIAL_STATE;
+console.log('🔍 [STORE-DEBUG] Final auth_state for store:', auth_state);
 
 const initialState = { auth: auth_state };
 

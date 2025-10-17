@@ -1,17 +1,27 @@
 const update = async (Model, req, res) => {
   // Find document by id and updates with the required fields
   req.body.removed = false;
+  
+  // Build query with user ownership filter for multi-tenancy
+  const query = {
+    _id: req.params.id,
+    removed: false,
+  };
+  
+  // Add user ownership filter if user is authenticated and model has createdBy field
+  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
+    query.createdBy = req.admin._id;
+  }
+  
   const result = await Model.findOneAndUpdate(
-    {
-      _id: req.params.id,
-      removed: false,
-    },
+    query,
     req.body,
     {
       new: true, // return the new result instead of the old one
       runValidators: true,
     }
   ).exec();
+  
   if (!result) {
     return res.status(404).json({
       success: false,

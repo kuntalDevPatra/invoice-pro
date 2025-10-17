@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manual SSO Test</title>
+</head>
+<body>
+    <h1>Manual SSO Login Test</h1>
+    <button onclick="testLogin()">Test Manual Login</button>
+    <div id="result"></div>
+
+    <script>
+        async function testLogin() {
+            // Use a fresh token - get one from the latest SSO attempt
+            const token = prompt('Enter SSO token from latest backend log:') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imt1bnRhbC5kZXYrMjAyMEByZWRkZW5zb2Z0LmNvbSIsInVzZXJJZCI6MzA5LCJ0aW1lc3RhbXAiOjE3NjA2MjUyMjA2NjQsImlhdCI6MTc2MDYyNTIyMCwiZXhwIjoxNzYwNjI4ODIwfQ.9RfFTsRPUVMVyAp49r9Q8kbHX314Wq9aeV-xza1W6oM';
+            
+            try {
+                const response = await fetch('/api/sso-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                if (data.success) {
+                    // Set auth state using the same method as the app
+                    const auth_state = {
+                        current: data.result.user,
+                        isLoggedIn: true,
+                        isLoading: false,
+                        isSuccess: true,
+                    };
+                    localStorage.setItem('auth', JSON.stringify(auth_state));
+                    localStorage.removeItem('isLogout');
+                    
+                    // Force page reload to apply auth state
+                    document.getElementById('result').innerHTML = 'Login successful! Reloading page...';
+                    setTimeout(() => window.location.href = '/', 1000);
+                } else {
+                    document.getElementById('result').innerHTML = 'Login failed: ' + data.message;
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

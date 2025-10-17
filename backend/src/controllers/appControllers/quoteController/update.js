@@ -44,9 +44,19 @@ const update = async (req, res) => {
   if (body.hasOwnProperty('currency')) {
     delete body.currency;
   }
-  // Find document by id and updates with the required fields
+  // Build query with user ownership filter for multi-tenancy
+  const query = {
+    _id: req.params.id,
+    removed: false,
+  };
+  
+  // Add user ownership filter if user is authenticated
+  if (req.admin && req.admin._id) {
+    query.createdBy = req.admin._id;
+  }
 
-  const result = await Model.findOneAndUpdate({ _id: req.params.id, removed: false }, body, {
+  // Find document by id and updates with the required fields
+  const result = await Model.findOneAndUpdate(query, body, {
     new: true, // return the new result instead of the old one
   }).exec();
 

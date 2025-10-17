@@ -18,9 +18,12 @@ function includeToken() {
 
   axios.defaults.withCredentials = true;
   const auth = storePersist.get('auth');
+  
+  // Try to get token from separate storage (SSO) or from auth object
+  const token = localStorage.getItem('token') || (auth && auth.current && auth.current.token);
 
-  if (auth) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${auth.current.token}`;
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 }
 

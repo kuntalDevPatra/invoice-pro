@@ -6,12 +6,19 @@ const filter = async (Model, req, res) => {
       message: 'filter not provided correctly',
     });
   }
-  const result = await Model.find({
+  
+  // Build query with user ownership filter for multi-tenancy
+  const query = Model.find({
     removed: false,
-  })
-    .where(req.query.filter)
-    .equals(req.query.equal)
-    .exec();
+  }).where(req.query.filter).equals(req.query.equal);
+  
+  // Add user ownership filter if user is authenticated and model has createdBy field
+  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
+    query.where('createdBy', req.admin._id);
+  }
+  
+  const result = await query.exec();
+  
   if (!result) {
     return res.status(404).json({
       success: false,

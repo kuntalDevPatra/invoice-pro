@@ -3,11 +3,19 @@ const mongoose = require('mongoose');
 const Model = mongoose.model('Quote');
 
 const read = async (req, res) => {
-  // Find document by id
-  const result = await Model.findOne({
+  // Build query with user ownership filter for multi-tenancy
+  const query = {
     _id: req.params.id,
     removed: false,
-  })
+  };
+  
+  // Add user ownership filter if user is authenticated
+  if (req.admin && req.admin._id) {
+    query.createdBy = req.admin._id;
+  }
+
+  // Find document by id
+  const result = await Model.findOne(query)
     .populate('createdBy', 'name')
     .exec();
   // If no results found, return document not found

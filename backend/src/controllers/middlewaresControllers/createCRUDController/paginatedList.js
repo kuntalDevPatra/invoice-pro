@@ -15,13 +15,20 @@ const paginatedList = async (Model, req, res) => {
     fields.$or.push({ [field]: { $regex: new RegExp(req.query.q, 'i') } });
   }
 
-  //  Query the database for a list of all results
-  const resultsPromise = Model.find({
+  // Build query with user ownership filter for multi-tenancy
+  const baseQuery = {
     removed: false,
-
     [filter]: equal,
     ...fields,
-  })
+  };
+  
+  // Add user ownership filter if user is authenticated and model has createdBy field
+  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
+    baseQuery.createdBy = req.admin._id;
+  }
+
+  //  Query the database for a list of all results
+  const resultsPromise = Model.find(baseQuery)
     .skip(skip)
     .limit(limit)
     .sort({ [sortBy]: sortValue })
@@ -29,12 +36,8 @@ const paginatedList = async (Model, req, res) => {
     .exec();
 
   // Counting the total documents
-  const countPromise = Model.countDocuments({
-    removed: false,
-
-    [filter]: equal,
-    ...fields,
-  });
+  const countPromise = Model.countDocuments(baseQuery);
+  
   // Resolving both promises
   const [result, count] = await Promise.all([resultsPromise, countPromise]);
 

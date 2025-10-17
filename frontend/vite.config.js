@@ -11,10 +11,12 @@ export default ({ mode }) => {
       ? process.env.VITE_BACKEND_SERVER
       : 'http://localhost:8888/';
 
+  const APP_PATH = process.env.VITE_APP_PATH || '';
+
   const config = {
     plugins: [react()],
+    base: APP_PATH || '/',
     resolve: {
-      base: '/',
       alias: {
         '@': path.resolve(__dirname, 'src'),
       },
@@ -22,10 +24,11 @@ export default ({ mode }) => {
     server: {
       port: 3000,
       proxy: {
-        '/api': {
+        [`${APP_PATH}/api`]: {
           target: proxy_url,
           changeOrigin: true,
           secure: false,
+          rewrite: (path) => path.replace(new RegExp(`^${APP_PATH}`), ''),
         },
       },
     },

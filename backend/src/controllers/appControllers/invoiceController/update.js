@@ -20,10 +20,18 @@ const update = async (req, res) => {
     });
   }
 
-  const previousInvoice = await Model.findOne({
+  // Build query with user ownership filter for multi-tenancy
+  const query = {
     _id: req.params.id,
     removed: false,
-  });
+  };
+  
+  // Add user ownership filter if user is authenticated
+  if (req.admin && req.admin._id) {
+    query.createdBy = req.admin._id;
+  }
+
+  const previousInvoice = await Model.findOne(query);
 
   const { credit } = previousInvoice;
 
@@ -67,7 +75,7 @@ const update = async (req, res) => {
     calculate.sub(total, discount) === credit ? 'paid' : credit > 0 ? 'partially' : 'unpaid';
   body['paymentStatus'] = paymentStatus;
 
-  const result = await Model.findOneAndUpdate({ _id: req.params.id, removed: false }, body, {
+  const result = await Model.findOneAndUpdate(query, body, {
     new: true, // return the new result instead of the old one
   }).exec();
 

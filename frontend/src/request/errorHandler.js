@@ -39,6 +39,16 @@ const errorHandler = (error) => {
   }
 
   if (response && response.data && response.data.jwtExpired) {
+    // Don't clear auth during SSO process or shortly after
+    const ssoProtection = sessionStorage.getItem('sso_login_in_progress');
+    if (window.location.pathname === '/sso' || ssoProtection) {
+      return {
+        success: false,
+        result: null,
+        message: 'JWT expired during/after SSO, ignoring',
+      };
+    }
+    
     const result = window.localStorage.getItem('auth');
     const jsonFile = window.localStorage.getItem('isLogout');
     const { isLogout } = (jsonFile && JSON.parse(jsonFile)) || false;
@@ -64,6 +74,16 @@ const errorHandler = (error) => {
     });
 
     if (response?.data?.error?.name === 'JsonWebTokenError') {
+      // Don't clear auth during SSO process or shortly after
+      const ssoProtection = sessionStorage.getItem('sso_login_in_progress');
+      if (window.location.pathname === '/sso' || ssoProtection) {
+        return {
+          success: false,
+          result: null,
+          message: 'JWT error during/after SSO, ignoring',
+        };
+      }
+      
       window.localStorage.removeItem('auth');
       window.localStorage.removeItem('isLogout');
       window.location.href = '/logout';

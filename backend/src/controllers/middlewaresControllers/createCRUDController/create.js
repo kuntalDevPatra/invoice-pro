@@ -1,6 +1,12 @@
 const create = async (Model, req, res) => {
   // Creating a new document in the collection
   req.body.removed = false;
+  
+  // Add user ownership for multi-tenancy
+  if (req.admin && req.admin._id) {
+    req.body.createdBy = req.admin._id;
+  }
+  
   const result = await new Model({
     ...req.body,
   }).save();

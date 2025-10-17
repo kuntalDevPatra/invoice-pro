@@ -10,6 +10,7 @@ const paymentModeSchema = new mongoose.Schema({
     default: true,
   },
 
+  createdBy: { type: mongoose.Schema.ObjectId, ref: 'Admin' },
   name: {
     type: String,
     required: true,

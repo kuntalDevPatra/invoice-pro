@@ -4,11 +4,19 @@ const Model = mongoose.model('Invoice');
 const ModelPayment = mongoose.model('Payment');
 
 const remove = async (req, res) => {
+  // Build query with user ownership filter for multi-tenancy
+  const query = {
+    _id: req.params.id,
+    removed: false,
+  };
+  
+  // Add user ownership filter if user is authenticated
+  if (req.admin && req.admin._id) {
+    query.createdBy = req.admin._id;
+  }
+
   const deletedInvoice = await Model.findOneAndUpdate(
-    {
-      _id: req.params.id,
-      removed: false,
-    },
+    query,
     {
       $set: {
         removed: true,

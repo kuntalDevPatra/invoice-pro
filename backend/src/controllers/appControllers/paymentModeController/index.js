@@ -16,9 +16,14 @@ methods.create = async (req, res) => {
     isDefault: true,
   });
 
+  // Add user ownership for multi-tenancy
+  req.body.removed = false;
+  if (req.admin && req.admin._id) {
+    req.body.createdBy = req.admin._id;
+  }
+
   const result = await new Model({
     ...req.body,
-
     isDefault: countDefault < 1 ? true : false,
   }).save();
 

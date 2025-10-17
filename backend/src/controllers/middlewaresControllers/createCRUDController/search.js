@@ -1,15 +1,4 @@
 const search = async (Model, req, res) => {
-  // console.log(req.query.fields)
-  // if (req.query.q === undefined || req.query.q.trim() === '') {
-  //   return res
-  //     .status(202)
-  //     .json({
-  //       success: false,
-  //       result: [],
-  //       message: 'No document found by this request',
-  //     })
-  //     .end();
-  // }
   const fieldsArray = req.query.fields ? req.query.fields.split(',') : ['name'];
 
   const fields = { $or: [] };
@@ -17,15 +6,18 @@ const search = async (Model, req, res) => {
   for (const field of fieldsArray) {
     fields.$or.push({ [field]: { $regex: new RegExp(req.query.q, 'i') } });
   }
-  // console.log(fields)
 
-  let results = await Model.find({
+  // Build query with user ownership filter for multi-tenancy
+  const query = Model.find({
     ...fields,
-  })
+  }).where('removed', false);
+  
+  // Add user ownership filter if user is authenticated and model has createdBy field
+  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
+    query.where('createdBy', req.admin._id);
+  }
 
-    .where('removed', false)
-    .limit(20)
-    .exec();
+  let results = await query.limit(20).exec();
 
   if (results.length >= 1) {
     return res.status(200).json({

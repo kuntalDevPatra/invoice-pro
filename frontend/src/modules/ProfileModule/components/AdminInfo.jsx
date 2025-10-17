@@ -66,7 +66,7 @@ const AdminInfo = ({ config }) => {
             }}
             alt={`${currentAdmin?.name}`}
           >
-            {currentAdmin?.name.charAt(0).toUpperCase()}
+            {currentAdmin?.name ? currentAdmin.name.charAt(0).toUpperCase() : '?'}
           </Avatar>
         </Col>
         <Col xs={{ span: 24 }} sm={{ span: 18 }}>
