@@ -22,7 +22,7 @@ export default ({ mode }) => {
       },
     },
     server: {
-      port: 3000,
+      port: 3005,
       proxy: {
         [`${APP_PATH}/api`]: {
           target: proxy_url,

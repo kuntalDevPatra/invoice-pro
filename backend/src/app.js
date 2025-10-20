@@ -49,7 +49,8 @@ app.use(`${APP_PATH}/api`, adminAuth.isValidAuthToken, erpApiRouter);
 app.use(`${APP_PATH}/download`, coreDownloadRouter);
 app.use(`${APP_PATH}/public`, corePublicRouter);
 app.use(APP_PATH, coreSsoRouter);
-// Fallback SSO route for backward compatibility
+// Fallback routes for backward compatibility
+app.use('/api', coreAuthRouter);
 app.use('/', coreSsoRouter);
 app.use(`${APP_PATH}/api`, coreTestRouter);
 

@@ -20,7 +20,7 @@ const ssoRedirect = async (req, res) => {
     }
 
     // Redirect to the frontend SSO login page with the token
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3005';
     const appPath = process.env.APP_PATH || '';
     const redirectTo = `${frontendUrl}${appPath}/sso?token=${sso_token}&redirect_url=${encodeURIComponent(redirect_url || '')}`;
     

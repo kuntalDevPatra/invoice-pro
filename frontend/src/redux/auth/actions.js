@@ -19,6 +19,11 @@ export const login =
       };
       window.localStorage.setItem('auth', JSON.stringify(auth_state));
       window.localStorage.removeItem('isLogout');
+      // Set protection flag for initial app load
+      sessionStorage.setItem('recent_login', 'true');
+      setTimeout(() => {
+        sessionStorage.removeItem('recent_login');
+      }, 5000);
       dispatch({
         type: actionTypes.REQUEST_SUCCESS,
         payload: data.result,

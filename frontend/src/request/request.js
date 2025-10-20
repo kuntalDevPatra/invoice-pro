@@ -17,10 +17,21 @@ function includeToken() {
   axios.defaults.baseURL = API_BASE_URL;
 
   axios.defaults.withCredentials = true;
-  const auth = storePersist.get('auth');
   
-  // Try to get token from separate storage (SSO) or from auth object
-  const token = localStorage.getItem('token') || (auth && auth.current && auth.current.token);
+  // Get fresh auth data from localStorage
+  const authData = localStorage.getItem('auth');
+  let token = localStorage.getItem('token'); // SSO token
+  
+  if (authData) {
+    try {
+      const auth = JSON.parse(authData);
+      if (auth && auth.current && auth.current.token) {
+        token = auth.current.token; // Use fresh login token
+      }
+    } catch (e) {
+      console.error('Error parsing auth data:', e);
+    }
+  }
 
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
