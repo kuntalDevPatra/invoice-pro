@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Install Backend Dependencies
 echo "Installing backend dependencies..."
 cd backend
