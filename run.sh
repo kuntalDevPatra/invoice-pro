@@ -13,7 +13,7 @@ echo "Starting backend server..."
 npm run dev &
 BACKEND_PID=$!
 
-# Install Frontend Dependencies
+# Install Frontend Dependency
 echo "Installing frontend dependencies..."
 cd ../frontend
 npm install
