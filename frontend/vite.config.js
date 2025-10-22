@@ -9,7 +9,7 @@ export default ({ mode }) => {
   const proxy_url = process.env.VITE_FILE_BASE_URL || 'http://localhost:8888/';
   const isProd = process.env.PROD === 'true';
 
-  const APP_PATH = process.env.VITE_APP_PATH || '';
+  const APP_PATH = process.env.VITE_AP8888P_PATH || '';
   const HOST = process.env.VITE_HOST || '127.0.0.1';
   const PORT = parseInt(process.env.VITE_PORT, 10) || 3005;
 
@@ -24,13 +24,15 @@ export default ({ mode }) => {
     server: {
       host: HOST,
       port: PORT,
-      proxy: {
-        [`${APP_PATH}/api`]: {
-          target: proxy_url,
-          changeOrigin: true,
-          secure: false,
-        },
-      } : undefined,
+      proxy: APP_PATH
+        ? {
+            [`${APP_PATH}/api`]: {
+              target: proxy_url,
+              changeOrigin: true,
+              secure: false,
+            },
+          }
+        : undefined,
     },
     preview: {
       host: '0.0.0.0',
