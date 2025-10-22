@@ -6,10 +6,8 @@ import react from '@vitejs/plugin-react';
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-  const proxy_url =
-    process.env.VITE_DEV_REMOTE === 'remote'
-      ? process.env.VITE_BACKEND_SERVER
-      : 'http://localhost:8888/';
+  const proxy_url = process.env.VITE_FILE_BASE_URL || 'http://localhost:8888/';
+  const isProd = process.env.PROD === 'true';
 
   const APP_PATH = process.env.VITE_APP_PATH || '';
   const HOST = process.env.VITE_HOST || '127.0.0.1';
@@ -31,9 +29,12 @@ export default ({ mode }) => {
           target: proxy_url,
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(new RegExp(`^${APP_PATH}`), ''),
         },
-      },
+      } : undefined,
+    },
+    preview: {
+      host: '0.0.0.0',
+      port: 3005,
     },
   };
   return defineConfig(config);
