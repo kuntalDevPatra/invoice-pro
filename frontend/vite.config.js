@@ -6,10 +6,14 @@ import react from '@vitejs/plugin-react';
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
-  const proxy_url = process.env.VITE_FILE_BASE_URL || 'http://localhost:8888/';
-  const isProd = process.env.PROD === 'true';
+  // backend URL used for proxying in remote mode
+  const proxy_url = process.env.VITE_BACKEND_SERVER || 'http://localhost:8888/';
+  const isProd = process.env.PROD === 'true' || process.env.NODE_ENV === 'production';
 
-  const APP_PATH = process.env.VITE_AP8888P_PATH || '';
+  // app path (if your app is served under a subpath). Fixed env var name.
+  const APP_PATH = process.env.VITE_APP_PATH || '';
+  // Vite cache directory: set VITE_CACHE_DIR to override (use a path writable by CI user)
+  const CACHE_DIR = process.env.VITE_CACHE_DIR || '.vite';
   const HOST = process.env.VITE_HOST || '127.0.0.1';
   const PORT = parseInt(process.env.VITE_PORT, 10) || 3005;
 
@@ -34,6 +38,8 @@ export default ({ mode }) => {
           }
         : undefined,
     },
+    // Put Vite cache outside node_modules by default to avoid permission issues in CI
+    cacheDir: CACHE_DIR,
     preview: {
       host: '0.0.0.0',
       port: 3005,
