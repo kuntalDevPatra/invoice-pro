@@ -11,7 +11,8 @@ const APP_PATH = import.meta.env.VITE_APP_PATH || '';
 
 const log = (message, data = null) => {
   console.log(`[SSO] ${message}`, data);
-  axios.post(`http://localhost:8888${APP_PATH}/api/log`, {
+  // Use API_BASE_URL so dev proxy or remote backend settings are respected
+  axios.post(API_BASE_URL + 'log', {
     level: 'info',
     message: `[SSO] ${message}`,
     data

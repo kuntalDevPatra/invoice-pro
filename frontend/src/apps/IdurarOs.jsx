@@ -8,12 +8,13 @@ import AuthRouter from '@/router/AuthRouter';
 import Localization from '@/locale/Localization';
 import { notification } from 'antd';
 import axios from 'axios';
+import { API_BASE_URL } from '@/config/serverApiConfig';
 
 const APP_PATH = import.meta.env.VITE_APP_PATH || '';
 
 const log = (message, data = null) => {
   console.log(`[FRONTEND] ${message}`, data);
-  axios.post(`http://localhost:8888${APP_PATH}/api/log`, {
+  axios.post(API_BASE_URL + 'log', {
     level: 'info',
     message,
     data

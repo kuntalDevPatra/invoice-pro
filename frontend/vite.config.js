@@ -12,6 +12,8 @@ export default ({ mode }) => {
       : 'http://localhost:8888/';
 
   const APP_PATH = process.env.VITE_APP_PATH || '';
+  const HOST = process.env.VITE_HOST || '127.0.0.1';
+  const PORT = parseInt(process.env.VITE_PORT, 10) || 3005;
 
   const config = {
     plugins: [react()],
@@ -22,7 +24,8 @@ export default ({ mode }) => {
       },
     },
     server: {
-      port: 3005,
+      host: HOST,
+      port: PORT,
       proxy: {
         [`${APP_PATH}/api`]: {
           target: proxy_url,
