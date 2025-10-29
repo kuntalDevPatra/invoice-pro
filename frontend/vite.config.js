@@ -28,6 +28,7 @@ export default ({ mode }) => {
     server: {
       host: HOST,
       port: PORT,
+      allowedHosts: ['invoice.reddensoft.com'],
       proxy: APP_PATH
         ? {
             [`${APP_PATH}/api`]: {
