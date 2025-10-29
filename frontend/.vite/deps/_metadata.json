@@ -1,0 +1,151 @@
+{
+  "hash": "5e579fd2",
+  "configHash": "35891fb9",
+  "lockfileHash": "684ae8fd",
+  "browserHash": "f19e6e53",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "a758d60d",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "b2965e38",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../node_modules/react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "a9818ee6",
+      "needsInterop": true
+    },
+    "@ant-design/icons": {
+      "src": "../../node_modules/@ant-design/icons/es/index.js",
+      "file": "@ant-design_icons.js",
+      "fileHash": "859cf213",
+      "needsInterop": false
+    },
+    "@ant-design/pro-layout": {
+      "src": "../../node_modules/@ant-design/pro-layout/es/index.js",
+      "file": "@ant-design_pro-layout.js",
+      "fileHash": "1b1f30fb",
+      "needsInterop": false
+    },
+    "@reduxjs/toolkit": {
+      "src": "../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
+      "file": "@reduxjs_toolkit.js",
+      "fileHash": "941ce125",
+      "needsInterop": false
+    },
+    "antd": {
+      "src": "../../node_modules/antd/es/index.js",
+      "file": "antd.js",
+      "fileHash": "34e20f5e",
+      "needsInterop": false
+    },
+    "antd/lib/layout/layout": {
+      "src": "../../node_modules/antd/lib/layout/layout.js",
+      "file": "antd_lib_layout_layout.js",
+      "fileHash": "ac236fa3",
+      "needsInterop": true
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "7d9eb2cd",
+      "needsInterop": false
+    },
+    "currency.js": {
+      "src": "../../node_modules/currency.js/dist/currency.es.js",
+      "file": "currency__js.js",
+      "fileHash": "663a9306",
+      "needsInterop": false
+    },
+    "dayjs": {
+      "src": "../../node_modules/dayjs/dayjs.min.js",
+      "file": "dayjs.js",
+      "fileHash": "186efdcb",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "4b56c95d",
+      "needsInterop": true
+    },
+    "react-redux": {
+      "src": "../../node_modules/react-redux/dist/react-redux.mjs",
+      "file": "react-redux.js",
+      "fileHash": "fd4a8125",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "469302e6",
+      "needsInterop": false
+    },
+    "redux": {
+      "src": "../../node_modules/redux/dist/redux.mjs",
+      "file": "redux.js",
+      "fileHash": "0af004c8",
+      "needsInterop": false
+    },
+    "reselect": {
+      "src": "../../node_modules/reselect/dist/reselect.mjs",
+      "file": "reselect.js",
+      "fileHash": "e9ba4203",
+      "needsInterop": false
+    },
+    "shortid": {
+      "src": "../../node_modules/shortid/index.js",
+      "file": "shortid.js",
+      "fileHash": "c828f908",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-I4LV5FPC": {
+      "file": "chunk-I4LV5FPC.js"
+    },
+    "chunk-5HDAWWHN": {
+      "file": "chunk-5HDAWWHN.js"
+    },
+    "chunk-7SL63OCI": {
+      "file": "chunk-7SL63OCI.js"
+    },
+    "chunk-UEAGAERI": {
+      "file": "chunk-UEAGAERI.js"
+    },
+    "chunk-PVMFS3T7": {
+      "file": "chunk-PVMFS3T7.js"
+    },
+    "chunk-PQBFR4ZP": {
+      "file": "chunk-PQBFR4ZP.js"
+    },
+    "chunk-7H4KYO3M": {
+      "file": "chunk-7H4KYO3M.js"
+    },
+    "chunk-7CIBI6G4": {
+      "file": "chunk-7CIBI6G4.js"
+    },
+    "chunk-OVHD3QQE": {
+      "file": "chunk-OVHD3QQE.js"
+    },
+    "chunk-W4EHDCLL": {
+      "file": "chunk-W4EHDCLL.js"
+    },
+    "chunk-65JG2JFT": {
+      "file": "chunk-65JG2JFT.js"
+    },
+    "chunk-FZJ3TXTK": {
+      "file": "chunk-FZJ3TXTK.js"
+    },
+    "chunk-EWTE5DHJ": {
+      "file": "chunk-EWTE5DHJ.js"
+    }
+  }
+}
