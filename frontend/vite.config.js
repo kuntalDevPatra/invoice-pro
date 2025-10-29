@@ -41,7 +41,8 @@ export default ({ mode }) => {
     // Put Vite cache outside node_modules by default to avoid permission issues in CI
     cacheDir: CACHE_DIR,
     preview: {
-      host: '0.0.0.0',
+      host: HOST,
+      // host: '0.0.0.0',
       port: 3005,
     },
   };

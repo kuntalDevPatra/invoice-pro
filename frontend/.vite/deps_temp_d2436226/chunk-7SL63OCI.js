@@ -4,7 +4,7 @@ import {
   svgBaseProps,
   useInsertStyles,
   warning
-} from "./chunk-VWLQJSPF.js";
+} from "./chunk-7CIBI6G4.js";
 import {
   _defineProperty,
   _extends,
@@ -17,7 +17,7 @@ import {
   init_ref,
   require_classnames,
   useComposeRef
-} from "./chunk-VLJAVMZL.js";
+} from "./chunk-OVHD3QQE.js";
 import {
   require_react
 } from "./chunk-W4EHDCLL.js";
@@ -16805,4 +16805,4 @@ export {
   create,
   IconProvider
 };
-//# sourceMappingURL=chunk-UTH5QLWA.js.map
+//# sourceMappingURL=chunk-7SL63OCI.js.map
