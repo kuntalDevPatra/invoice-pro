@@ -28,16 +28,23 @@ const summary = async (req, res) => {
   let endDate = currentDate.clone().endOf(defaultType);
 
   // get total amount of invoices
+  // Build base query with data access filter
+  const baseQuery = {
+    removed: false,
+    // date: {
+    //   $gte: startDate.toDate(),
+    //   $lte: endDate.toDate(),
+    // },
+  };
+  
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(baseQuery, req.dataAccessFilter);
+  }
+
   const result = await Model.aggregate([
     {
-      $match: {
-        removed: false,
-
-        // date: {
-        //   $gte: startDate.toDate(),
-        //   $lte: endDate.toDate(),
-        // },
-      },
+      $match: baseQuery,
     },
     {
       $group: {

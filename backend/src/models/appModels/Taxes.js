@@ -11,6 +11,7 @@ const schema = new mongoose.Schema({
   },
 
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'Admin' },
+  company: { type: mongoose.Schema.ObjectId, ref: 'Company' },
   taxName: {
     type: String,
     required: true,

@@ -21,15 +21,23 @@ const summary = async (Model, req, res) => {
   let startDate = currentDate.clone().startOf(defaultType);
   let endDate = currentDate.clone().endOf(defaultType);
 
+  // Build base query with data access filter
+  const baseQuery = {
+    removed: false,
+    enabled: true,
+  };
+  
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(baseQuery, req.dataAccessFilter);
+  }
+
   const pipeline = [
     {
       $facet: {
         totalClients: [
           {
-            $match: {
-              removed: false,
-              enabled: true,
-            },
+            $match: baseQuery,
           },
           {
             $count: 'count',
@@ -38,9 +46,8 @@ const summary = async (Model, req, res) => {
         newClients: [
           {
             $match: {
-              removed: false,
+              ...baseQuery,
               created: { $gte: startDate.toDate(), $lte: endDate.toDate() },
-              enabled: true,
             },
           },
           {

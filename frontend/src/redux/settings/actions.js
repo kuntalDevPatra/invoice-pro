@@ -153,6 +153,7 @@ export const settingsAction = {
 
         if (data.success === true) {
           const payload = dispatchSettingsData(data.result);
+          window.localStorage.removeItem('settings');
           window.localStorage.setItem(
             'settings',
             JSON.stringify(dispatchSettingsData(data.result))

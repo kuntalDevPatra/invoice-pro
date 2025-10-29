@@ -38,15 +38,6 @@ const AdminInfo = ({ config }) => {
           >
             {translate('Edit')}
           </Button>,
-          <Button
-            key={`${uniqueId()}`}
-            icon={<LockOutlined />}
-            onClick={() => {
-              modal.open();
-            }}
-          >
-            {translate('Update Password')}
-          </Button>,
         ]}
         style={{
           padding: '20px 0px',

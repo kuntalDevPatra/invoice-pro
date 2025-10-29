@@ -20,6 +20,7 @@ const schema = new mongoose.Schema({
   email: String,
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'Admin' },
   assigned: { type: mongoose.Schema.ObjectId, ref: 'Admin' },
+  company: { type: mongoose.Schema.ObjectId, ref: 'Company', required: true },
   created: {
     type: Date,
     default: Date.now,

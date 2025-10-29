@@ -37,6 +37,7 @@ const create = async (req, res) => {
     });
   }
   req.body['createdBy'] = req.admin._id;
+  req.body['company'] = req.admin.company;
 
   const result = await Model.create(req.body);
 

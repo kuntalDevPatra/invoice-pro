@@ -15,11 +15,19 @@ import FinanceSettings from './FinanceSettings';
 import MoneyFormatSettings from './MoneyFormatSettings';
 
 import useLanguage from '@/locale/useLanguage';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectCurrentAdmin } from '@/redux/auth/selectors';
 
 export default function Settings() {
   const translate = useLanguage();
   const { settingsKey } = useParams();
+  const currentAdmin = useSelector(selectCurrentAdmin);
+  
+  // Only owners can access settings
+  if (currentAdmin?.role !== 'owner') {
+    return <Navigate to="/" replace />;
+  }
   const content = [
     {
       key: 'general_settings',

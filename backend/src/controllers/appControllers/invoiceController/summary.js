@@ -30,15 +30,23 @@ const summary = async (req, res) => {
 
   const statuses = ['draft', 'pending', 'overdue', 'paid', 'unpaid', 'partially'];
 
+  // Build base query with data access filter
+  const baseQuery = {
+    removed: false,
+    // date: {
+    //   $gte: startDate.toDate(),
+    //   $lte: endDate.toDate(),
+    // },
+  };
+  
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(baseQuery, req.dataAccessFilter);
+  }
+
   const response = await Model.aggregate([
     {
-      $match: {
-        removed: false,
-        // date: {
-        //   $gte: startDate.toDate(),
-        //   $lte: endDate.toDate(),
-        // },
-      },
+      $match: baseQuery,
     },
     {
       $facet: {
@@ -162,19 +170,25 @@ const summary = async (req, res) => {
     }
   });
 
+  const unpaidQuery = {
+    removed: false,
+    // date: {
+    //   $gte: startDate.toDate(),
+    //   $lte: endDate.toDate(),
+    // },
+    paymentStatus: {
+      $in: ['unpaid', 'partially'],
+    },
+  };
+  
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(unpaidQuery, req.dataAccessFilter);
+  }
+
   const unpaid = await Model.aggregate([
     {
-      $match: {
-        removed: false,
-
-        // date: {
-        //   $gte: startDate.toDate(),
-        //   $lte: endDate.toDate(),
-        // },
-        paymentStatus: {
-          $in: ['unpaid', 'partially'],
-        },
-      },
+      $match: unpaidQuery,
     },
     {
       $group: {

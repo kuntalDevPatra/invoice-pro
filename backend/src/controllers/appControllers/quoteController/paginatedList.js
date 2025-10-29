@@ -27,9 +27,9 @@ const paginatedList = async (req, res) => {
     ...fields,
   };
   
-  // Add user ownership filter if user is authenticated
-  if (req.admin && req.admin._id) {
-    baseQuery.createdBy = req.admin._id;
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(baseQuery, req.dataAccessFilter);
   }
 
   //  Query the database for a list of all results

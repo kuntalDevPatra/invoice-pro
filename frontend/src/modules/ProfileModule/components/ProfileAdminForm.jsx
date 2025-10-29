@@ -54,7 +54,7 @@ export default function AdminForm({ isUpdateForm = false }) {
           },
         ]}
       >
-        <Input autoComplete="off" />
+        <Input autoComplete="off" disabled />
       </Form.Item>
 
       <Form.Item

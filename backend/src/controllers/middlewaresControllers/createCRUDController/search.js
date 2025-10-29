@@ -8,14 +8,17 @@ const search = async (Model, req, res) => {
   }
 
   // Build query with user ownership filter for multi-tenancy
-  const query = Model.find({
+  const baseQuery = {
     ...fields,
-  }).where('removed', false);
+    removed: false,
+  };
   
-  // Add user ownership filter if user is authenticated and model has createdBy field
-  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
-    query.where('createdBy', req.admin._id);
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(baseQuery, req.dataAccessFilter);
   }
+  
+  const query = Model.find(baseQuery);
 
   let results = await query.limit(20).exec();
 

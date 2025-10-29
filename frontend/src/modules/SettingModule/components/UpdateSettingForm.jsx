@@ -15,15 +15,17 @@ export default function UpdateSettingForm({ config, children, withUpload, upload
   const translate = useLanguage();
   const [form] = Form.useForm();
 
-  const onSubmit = (fieldsValue) => {
+  const onSubmit = async (fieldsValue) => {
     console.log('🚀 ~ onSubmit ~ fieldsValue:', fieldsValue);
     if (withUpload) {
       if (fieldsValue.file) {
         fieldsValue.file = fieldsValue.file[0].originFileObj;
       }
-      dispatch(
+      await dispatch(
         settingsAction.upload({ entity, settingKey: uploadSettingKey, jsonData: fieldsValue })
       );
+      // Force reload settings after upload
+      dispatch(settingsAction.list({ entity }));
     } else {
       const settings = [];
 

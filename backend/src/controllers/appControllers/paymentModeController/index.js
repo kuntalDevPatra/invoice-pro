@@ -21,6 +21,9 @@ methods.create = async (req, res) => {
   if (req.admin && req.admin._id) {
     req.body.createdBy = req.admin._id;
   }
+  if (req.admin && req.admin.company) {
+    req.body.company = req.admin.company;
+  }
 
   const result = await new Model({
     ...req.body,

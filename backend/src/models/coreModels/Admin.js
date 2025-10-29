@@ -30,7 +30,17 @@ const adminSchema = new Schema({
   role: {
     type: String,
     default: 'owner',
-    enum: ['owner'],
+    enum: ['owner', 'user'],
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'Admin',
+    default: null,
+  },
+  company: {
+    type: Schema.Types.ObjectId,
+    ref: 'Company',
+    required: true,
   },
 });
 

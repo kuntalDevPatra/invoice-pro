@@ -33,6 +33,16 @@ const create = async (userModel, req, res) => {
       enabled,
       removed: false,
     };
+    
+    // Add createdBy field if provided (for SAAS invitations)
+    if (req.body.createdBy) {
+      userData.createdBy = req.body.createdBy;
+    }
+    
+    // Add company field if provided (for SAAS invitations)
+    if (req.body.company) {
+      userData.company = req.body.company;
+    }
 
     const result = await new Model(userData).save();
 

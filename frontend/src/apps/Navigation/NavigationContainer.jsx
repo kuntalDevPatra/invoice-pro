@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Drawer, Layout, Menu } from 'antd';
+import { useSelector } from 'react-redux';
 
 import { useAppContext } from '@/context/appContext';
+import { selectCurrentSettings } from '@/redux/settings/selectors';
+import { selectCurrentAdmin } from '@/redux/auth/selectors';
+import { FILE_BASE_URL } from '@/config/serverApiConfig';
 
 import useLanguage from '@/locale/useLanguage';
 import logoIcon from '@/style/images/logo-icon.svg';
 import logoText from '@/style/images/logo-text.svg';
+import reddensoftLogo from '@/style/images/reddensoft-logo.png';
 
 import useResponsive from '@/hooks/useResponsive';
 
@@ -44,6 +49,12 @@ function Sidebar({ collapsible, isMobile = false }) {
   const { navMenu } = appContextAction;
   const [showLogoApp, setLogoApp] = useState(isNavMenuClose);
   const [currentPath, setCurrentPath] = useState(location.pathname.slice(1));
+  const allSettings = useSelector(selectCurrentSettings);
+  const currentAdmin = useSelector(selectCurrentAdmin);
+  const companyLogo = allSettings?.company_settings?.company_logo;
+  
+  // Debug: Log the current company logo path
+  console.log('Current company logo:', companyLogo);
 
   const translate = useLanguage();
   const navigate = useNavigate();
@@ -86,16 +97,11 @@ function Sidebar({ collapsible, isMobile = false }) {
       label: <Link to={'/taxes'}>{translate('taxes')}</Link>,
       icon: <ShopOutlined />,
     },
-    {
+    ...(currentAdmin?.role === 'owner' ? [{
       key: 'generalSettings',
       label: <Link to={'/settings'}>{translate('settings')}</Link>,
       icon: <SettingOutlined />,
-    },
-    {
-      key: 'about',
-      label: <Link to={'/about'}>{translate('about')}</Link>,
-      icon: <ReconciliationOutlined />,
-    },
+    }] : []),
   ];
 
   useEffect(() => {
@@ -151,19 +157,7 @@ function Sidebar({ collapsible, isMobile = false }) {
           cursor: 'pointer',
         }}
       >
-        <img src={logoIcon} alt="Logo" style={{ marginLeft: '-5px', height: '40px' }} />
-
-        {!showLogoApp && (
-          <img
-            src={logoText}
-            alt="Logo"
-            style={{
-              marginTop: '3px',
-              marginLeft: '10px',
-              height: '38px',
-            }}
-          />
-        )}
+        <img src={reddensoftLogo} alt="Reddensoft Logo" style={{ marginLeft: '-5px', height: '40px', objectFit: 'contain' }} />
       </div>
       <Menu
         items={items}

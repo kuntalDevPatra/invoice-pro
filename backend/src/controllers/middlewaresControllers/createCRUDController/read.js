@@ -5,9 +5,9 @@ const read = async (Model, req, res) => {
     removed: false,
   };
   
-  // Add user ownership filter if user is authenticated and model has createdBy field
-  if (req.admin && req.admin._id && Model.schema.paths.createdBy) {
-    query.createdBy = req.admin._id;
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(query, req.dataAccessFilter);
   }
   
   // Find document by id

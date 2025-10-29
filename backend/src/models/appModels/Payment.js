@@ -7,6 +7,7 @@ const paymentSchema = new mongoose.Schema({
   },
 
   createdBy: { type: mongoose.Schema.ObjectId, ref: 'Admin', autopopulate: true, required: true },
+  company: { type: mongoose.Schema.ObjectId, ref: 'Company', required: true },
   number: {
     type: Number,
     required: true,

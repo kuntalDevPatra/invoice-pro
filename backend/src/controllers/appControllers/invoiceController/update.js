@@ -26,9 +26,9 @@ const update = async (req, res) => {
     removed: false,
   };
   
-  // Add user ownership filter if user is authenticated
-  if (req.admin && req.admin._id) {
-    query.createdBy = req.admin._id;
+  // Add data access filter from middleware
+  if (req.dataAccessFilter) {
+    Object.assign(query, req.dataAccessFilter);
   }
 
   const previousInvoice = await Model.findOne(query);
